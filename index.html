@@ -3,507 +3,504 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Official XII.1 - The Class of Unity</title>
+    <title>XII IPA 1 - @twelveone_story</title>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Icons (Lucide) -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         /* --- RESET & BASIC SETUP --- */
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            --accent-color: #00d2ff;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
-            scroll-behavior: smooth;
         }
 
         body {
-            background-color: #0f0c29;
+            /* --- PENGATURAN BACKGROUND ---
+               1. rgba(0,0,0, 0.7) = Layer hitam transparan (0.7 = tingkat kegelapan, makin tinggi makin gelap).
+               2. url('background.jpg') = File foto kamu.
+            */
+            background: linear-gradient(rgba(15, 12, 41, 0.85), rgba(15, 12, 41, 0.7)), 
+                        url('background.jpg');
+            
+            background-size: cover;       /* Memenuhi layar */
+            background-position: center;  /* Posisi di tengah */
+            background-attachment: fixed; /* Background diam saat discroll */
+            background-repeat: no-repeat;
+            
             color: white;
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
         }
 
-        /* --- BACKGROUND LIQUID ANIMATION --- */
-        .background-blobs {
+        /* --- GLASSMORPHISM UTILITY --- */
+        .glass {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(10px); /* Efek blur kaca */
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* --- PROFILE / HERO SECTION --- */
+        .profile-container {
+            padding: 4rem 2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-pic-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #00d2ff;
+            padding: 5px;
+            background: rgba(255,255,255,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .profile-pic:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .username {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .verified-badge {
+            color: #00d2ff;
+            font-size: 1.2rem;
+        }
+
+        .profile-bio {
+            max-width: 500px;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* --- ANONIM TEXT SECTION --- */
+        .anonim-wrapper {
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto 2rem auto;
+            position: relative;
+        }
+
+        .anonim-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+        }
+
+        .anonim-card {
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 4px solid #ff00cc;
+            text-align: left;
+            position: relative;
+        }
+
+        .quote-icon {
+            font-size: 2rem;
+            color: rgba(255,255,255,0.2);
+            position: absolute;
+            top: 15px;
+            right: 20px;
+        }
+
+        .anonim-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #fff;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .anonim-sender {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            text-align: right;
+            display: block;
+        }
+
+        /* --- BUTTONS --- */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.9rem;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+
+        .social-btn:hover {
+            background: white;
+            color: #0f0c29;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+
+        .social-btn.primary {
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
+        }
+
+        /* --- GALLERY CAROUSEL --- */
+        #gallery {
+            padding: 2rem 0 4rem;
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            display: flex;
+            gap: 40px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 50px calc(50% - 150px);
+            padding-bottom: 80px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-card {
+            flex: 0 0 300px;
+            height: 450px;
+            background: #000;
+            border-radius: 20px;
+            scroll-snap-align: center;
+            position: relative;
+            transition: all 0.4s ease-out;
+            transform-origin: center center;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            cursor: pointer;
+        }
+
+        .carousel-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+        }
+        
+        .carousel-card::after {
+            content: 'Lihat Penuh';
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            background: rgba(0,0,0,0.6);
+            padding: 5px 15px;
+            border-radius: 20px;
+            opacity: 0;
+            transition: 0.3s;
+            color: white;
+            backdrop-filter: blur(4px);
+        }
+
+        .carousel-card:hover::after {
+            opacity: 1;
+        }
+
+        /* --- LIGHTBOX (FULLSCREEN) --- */
+        .lightbox {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .blob {
-            position: absolute;
-            filter: blur(60px);
-            opacity: 0.6;
-            animation: float 10s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
-        }
-
-        .blob-1 {
-            top: -10%;
-            left: -10%;
-            width: 600px;
-            height: 600px;
-            background: linear-gradient(135deg, #7209b7, #3a0ca3);
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-        }
-
-        .blob-2 {
-            bottom: -10%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(135deg, #4cc9f0, #4361ee);
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            animation-duration: 15s;
-            animation-direction: alternate-reverse;
-        }
-
-        .blob-3 {
-            top: 40%;
-            left: 40%;
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, #f72585, #b5179e);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            animation-duration: 12s;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;}
-            100% { transform: translate(40px, 40px) rotate(10deg); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-        }
-
-        /* --- GLASSMORPHISM UTILITY --- */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            border-radius: 24px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* --- NAVBAR --- */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.2rem 5%;
-            position: sticky;
-            top: 20px;
-            z-index: 100;
-            margin: 0 20px;
-            border-radius: 50px;
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            background: linear-gradient(to right, #fff, #4cc9f0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: 0.3s;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: #fff;
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--accent-color);
-            transition: width 0.3s;
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            display: none;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 0 2rem;
-            margin-top: -80px; /* Compensate for navbar */
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        .badge {
-            padding: 8px 16px;
-            background: rgba(76, 201, 240, 0.2);
-            border: 1px solid rgba(76, 201, 240, 0.5);
-            border-radius: 50px;
-            font-size: 0.8rem;
-            color: #4cc9f0;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 600;
-        }
-
-        .hero h1 {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-            line-height: 1;
-            font-weight: 700;
-            letter-spacing: -2px;
-            text-shadow: 0 0 30px rgba(0,0,0,0.5);
-        }
-
-        .hero h1 span {
-            background: linear-gradient(to right, #4cc9f0, #7209b7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 600px;
-            margin-bottom: 2.5rem;
-            line-height: 1.6;
-        }
-
-        .btn-group {
+        .lightbox.active {
             display: flex;
-            gap: 1rem;
+            opacity: 1;
         }
 
-        .btn {
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0,210,255,0.2);
+            object-fit: contain;
         }
 
-        .btn-primary {
-            background: white;
-            color: #0f0c29;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
-        }
-
-        .btn-outline {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.3);
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
             color: white;
-        }
-
-        .btn-outline:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: white;
-        }
-
-        /* --- SECTIONS --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        .section-header {
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .section-header h2 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .section-header p {
-            color: rgba(255,255,255,0.5);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        /* --- HORIZONTAL SCROLL GALLERY --- */
-        .gallery-container {
-            display: flex;
-            overflow-x: auto;
-            gap: 1.5rem;
-            padding: 1rem 0 2rem 0; /* Padding bottom for shadow space */
-            scroll-behavior: smooth;
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-            /* Add snap effect */
-            scroll-snap-type: x mandatory;
-        }
-
-        .gallery-container::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
-        }
-
-        .gallery-item {
-            min-width: 300px; /* Lebar tetap supaya tidak gepeng */
-            height: 400px;
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            flex: 0 0 auto; /* Don't shrink */
+            font-size: 2rem;
             cursor: pointer;
-            scroll-snap-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.05);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            transform: translateY(0);
-        }
-        
-        .swipe-hint {
-            text-align: center;
-            font-size: 0.8rem;
-            opacity: 0.5;
-            margin-top: -1rem;
-            margin-bottom: 1rem;
+            z-index: 1001;
+            background: rgba(255,255,255,0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            transition: 0.3s;
         }
-
-        /* --- FOOTER --- */
-        footer {
-            margin-top: 4rem;
-            padding: 3rem 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-            position: relative;
-            z-index: 10;
+        
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
         }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-            nav { padding: 1rem; margin: 0; border-radius: 0; top: 0; background: rgba(15, 12, 41, 0.95); }
-            .nav-links { display: none; } 
-            .btn-group { flex-direction: column; width: 100%; }
-            .btn { width: 100%; justify-content: center; }
-            
-            .gallery-item {
-                min-width: 260px; /* Slightly smaller on mobile */
-                height: 350px;
-            }
+            .carousel-card { flex: 0 0 250px; height: 350px; }
+            .carousel-container { padding: 50px calc(50% - 125px); }
+            .username { font-size: 1.5rem; }
+            .profile-pic { width: 120px; height: 120px; }
+            .anonim-text { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Animasi Background Liquid -->
-    <div class="background-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
-
-    <!-- Navbar -->
-    <nav class="glass">
-        <div class="logo">XII.1</div>
-        <div class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#about">Tentang</a>
-            <a href="#galeri">Galeri</a>
+    <!-- HEADER / PROFILE SECTION -->
+    <section class="profile-container">
+        <div class="profile-pic-wrapper">
+            <!-- FOTO PROFIL KELAS -->
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=200&auto=format&fit=crop" alt="Profile Class" class="profile-pic glass">
         </div>
-    </nav>
+        
+        <h1 class="username">
+            @twelveone_story 
+            <i class="fas fa-check-circle verified-badge"></i>
+        </h1>
+        
+        <p class="profile-bio">
+            Official Account of XII IPA 1 🎓<br>
+            School Name • Batch 2026<br>
+            Solidarity above everything.
+        </p>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="badge">Class of 2025</div>
-        <h1>THE <span>ONES</span></h1>
-        <p>Bukan sekadar teman sekelas, tapi keluarga. Solid di dalam, bersinar di luar. Selamat datang di portal resmi XII IPA 1.</p>
-        <div class="btn-group">
-            <a href="#galeri" class="btn btn-primary">
-                Lihat Galeri <i data-lucide="camera"></i>
+        <!-- TEXT ANONIM / QUOTE SECTION -->
+        <div class="anonim-wrapper">
+            <div class="anonim-label">Featured Message</div>
+            <div class="anonim-card glass">
+                <i class="fas fa-quote-right quote-icon"></i>
+                <p class="anonim-text">
+                    "Masuk bareng, lulus bareng, sukses bareng. Kalau ada masalah selesaikan di kelas, jangan di status WA ya bestie!"
+                </p>
+                <span class="anonim-sender">- Secret Admirer Class</span>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="https://instagram.com/twelveone_story" target="_blank" class="social-btn primary">
+                <i class="fab fa-instagram"></i> Follow IG
             </a>
-            <a href="#about" class="btn btn-outline">
-                Info Kelas <i data-lucide="info"></i>
+            <a href="#" class="social-btn">
+                <i class="fas fa-paper-plane"></i> Kirim Menfess
             </a>
         </div>
     </section>
 
-    <!-- Tentang Kelas -->
-    <div id="about" class="container">
-        <div class="grid">
-            <div class="glass-card">
-                <i data-lucide="zap" color="#4cc9f0" size="32" style="margin-bottom: 1rem;"></i>
-                <h3>Visi Kami</h3>
-                <p style="opacity: 0.7; margin-top: 0.5rem;">Menjadi kelas yang santuy dalam pergaulan tapi serius dalam masa depan. No drama, just good vibes.</p>
-            </div>
-            <div class="glass-card">
-                <i data-lucide="heart" color="#f72585" size="32" style="margin-bottom: 1rem;"></i>
-                <h3>Motto</h3>
-                <p style="opacity: 0.7; margin-top: 0.5rem;">"Solidaritas Tanpa Batas, Tugas Tuntas, Nilai Di Atas."</p>
-            </div>
-            <div class="glass-card">
-                <i data-lucide="star" color="#ffe600" size="32" style="margin-bottom: 1rem;"></i>
-                <h3>Prestasi</h3>
-                <p style="opacity: 0.7; margin-top: 0.5rem;">Juara Kebersihan (Amin), Juara Futsal Antar Kelas, Juara Sabar Menghadapi Guru Fisika.</p>
-            </div>
-        </div>
+    <!-- GALLERY SECTION -->
+    <section id="gallery">
+        <div class="carousel-container" id="carousel"></div>
+    </section>
+
+    <!-- LIGHTBOX MODAL (POPUP FOTO) -->
+    <div class="lightbox" id="lightbox">
+        <div class="close-btn" onclick="closeLightbox()">&times;</div>
+        <img src="" alt="Full View" id="lightbox-img">
     </div>
 
-    <!-- Gallery Section (Horizontal Scroll) -->
-    <div id="galeri" class="container">
-        <div class="section-header">
-            <h2>Memories Dump</h2>
-            <p>Kenangan yang nggak akan terulang lagi.</p>
-        </div>
-        
-        <div class="swipe-hint">
-            <i data-lucide="arrow-left" size="16"></i> Geser untuk melihat <i data-lucide="arrow-right" size="16"></i>
-        </div>
-
-        <div class="gallery-container">
-            <!-- Item 1 -->
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Classroom">
-                <div class="gallery-overlay">
-                    <h4>Suasana Kelas</h4>
-                    <p style="font-size: 0.8rem;">Saat jam kosong menyerang</p>
-                </div>
-            </div>
-            
-            <!-- Item 2 -->
-             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Friends">
-                <div class="gallery-overlay">
-                    <h4>Bukber 2024</h4>
-                    <p style="font-size: 0.8rem;">Full team (tumben)</p>
-                </div>
-            </div>
-
-             <!-- Item 3 -->
-             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Study">
-                <div class="gallery-overlay">
-                    <h4>Kerja Kelompok</h4>
-                    <p style="font-size: 0.8rem;">90% gosip, 10% ngerjain</p>
-                </div>
-            </div>
-            
-             <!-- Item 4 -->
-             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Field Trip">
-                <div class="gallery-overlay">
-                    <h4>Study Tour</h4>
-                    <p style="font-size: 0.8rem;">Jogja never ends</p>
-                </div>
-            </div>
-
-            <!-- Item 5 -->
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Performance">
-                <div class="gallery-overlay">
-                    <h4>Pentas Seni</h4>
-                    <p style="font-size: 0.8rem;">Menyala abangkuh</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="glass">
-        <div style="margin-bottom: 1rem;">
-            <h2 class="logo">XII.1</h2>
-        </div>
-        <p style="opacity: 0.6; font-size: 0.9rem;">&copy; 2026 XII IPA 1. Created with ambition and coffee.</p>
-        <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 1rem;">
-            <a href="#" style="color: white; opacity: 0.7;"><i data-lucide="instagram"></i></a>
-            <a href="#" style="color: white; opacity: 0.7;"><i data-lucide="twitter"></i></a>
-        </div>
-    </footer>
-
-    <!-- Initialize Icons -->
     <script>
-        lucide.createIcons();
+        // ==========================================
+        // KONFIGURASI FOTO (EDIT BAGIAN INI SAJA)
+        // ==========================================
+        
+        const galleryFolder = "gallery/"; 
+
+        const photoList = [
+            "foto1.jpg", 
+            "foto2.jpg", 
+            "foto3.png",
+            // Tambahkan file kamu di bawah ini...
+        ];
+
+        const useDemo = true; // UBAH JADI 'false' jika mau pakai foto sendiri
+
+        // ==========================================
+        // JANGAN UBAH KODE DI BAWAH INI
+        // ==========================================
+        
+        const demoImages = [
+            "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1525921429624-479b6a26d84d?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1544963151-fb47f1f06add?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1526662092594-e98c1e356d63?q=80&w=800&auto=format&fit=crop"
+        ];
+
+        const carousel = document.getElementById('carousel');
+
+        // 1. Render Gallery Card
+        function renderGallery() {
+            const imagesToLoad = useDemo ? demoImages : photoList.map(name => galleryFolder + name);
+
+            if (!useDemo && photoList.length === 0) {
+                carousel.innerHTML = '<p style="text-align:center; width:100%;">Belum ada foto di daftar photoList.</p>';
+                return;
+            }
+
+            let htmlContent = '';
+            imagesToLoad.forEach((src) => {
+                htmlContent += `
+                    <div class="carousel-card glass" onclick="openLightbox('${src}')">
+                        <img src="${src}" alt="Class Memory" loading="lazy">
+                    </div>
+                `;
+            });
+            carousel.innerHTML = htmlContent;
+        }
+
+        renderGallery();
+
+        // 2. Coverflow Effect
+        const cards = document.querySelectorAll('.carousel-card');
+
+        function updateCoverflow() {
+            const containerCenter = carousel.scrollLeft + (carousel.offsetWidth / 2);
+
+            cards.forEach(card => {
+                const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+                const distance = Math.abs(containerCenter - cardCenter);
+                const maxDistance = card.offsetWidth * 1.5; 
+                
+                if (distance < maxDistance) {
+                    const scale = 1 - (0.15 * (distance / maxDistance));
+                    const opacity = 1 - (0.5 * (distance / maxDistance));
+                    
+                    card.style.transform = `scale(${scale})`;
+                    card.style.opacity = opacity;
+                    card.style.zIndex = Math.round(100 - distance);
+                    card.style.filter = `brightness(${scale})`;
+                } else {
+                    card.style.transform = 'scale(0.85)';
+                    card.style.opacity = '0.5';
+                    card.style.zIndex = '1';
+                    card.style.filter = 'brightness(0.5)';
+                }
+            });
+        }
+
+        carousel.addEventListener('scroll', updateCoverflow);
+        updateCoverflow();
+
+        // 3. Auto Scroll
+        let autoScrollInterval;
+        let isPaused = false;
+
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                if (!isPaused && cards.length > 0) {
+                    const cardWidth = cards[0].offsetWidth;
+                    const gap = 40; 
+                    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+                    
+                    if (carousel.scrollLeft >= maxScroll - 10) { 
+                        carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                    } else {
+                        carousel.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+                    }
+                }
+            }, 2500); 
+        }
+
+        carousel.addEventListener('mouseenter', () => isPaused = true);
+        carousel.addEventListener('mouseleave', () => isPaused = false);
+        carousel.addEventListener('touchstart', () => isPaused = true);
+        carousel.addEventListener('touchend', () => isPaused = false);
+
+        startAutoScroll();
+
+        // 4. Lightbox Logic
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(src) {
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+            isPaused = true;
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            setTimeout(() => {
+                lightboxImg.src = "";
+            }, 300);
+            isPaused = false;
+        }
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox || e.target.classList.contains('close-btn')) {
+                closeLightbox();
+            }
+        });
     </script>
 </body>
 </html>
-
-
