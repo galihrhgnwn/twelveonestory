@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official XII.1 - The Class of Unity</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* --- RESET & BASIC SETUP --- */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --accent-color: #00d2ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0f0c29;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* --- BACKGROUND LIQUID ANIMATION --- */
+        .background-blobs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: float 10s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #7209b7, #3a0ca3);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #4cc9f0, #4361ee);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation-duration: 15s;
+            animation-direction: alternate-reverse;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 40%;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #f72585, #b5179e);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation-duration: 12s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;}
+            100% { transform: translate(40px, 40px) rotate(10deg); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+
+        /* --- GLASSMORPHISM UTILITY --- */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            margin: 0 20px;
+            border-radius: 50px;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #fff, #4cc9f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+            margin-top: -80px; /* Compensate for navbar */
+        }
+
+        .badge {
+            padding: 8px 16px;
+            background: rgba(76, 201, 240, 0.2);
+            border: 1px solid rgba(76, 201, 240, 0.5);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #4cc9f0;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: -2px;
+            text-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .hero h1 span {
+            background: linear-gradient(to right, #4cc9f0, #7209b7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #0f0c29;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-outline {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        /* --- SECTIONS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-header p {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* --- STATS / HIGHLIGHTS --- */
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-desc {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* --- GALLERY --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            height: 300px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            group: hover;
+            cursor: pointer;
+            background: rgba(0,0,0,0.2); /* Placeholder color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: 4rem;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            nav { padding: 1rem; margin: 0; border-radius: 0; top: 0; background: rgba(15, 12, 41, 0.8); }
+            .nav-links { display: none; } /* Add hamburger menu logic if needed */
+            .btn-group { flex-direction: column; width: 100%; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animasi Background Liquid -->
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="glass">
+        <div class="logo">XII.1</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">Tentang</a>
+            <a href="#struktur">Struktur</a>
+            <a href="#galeri">Galeri</a>
+        </div>
+        <!-- Mobile Menu Icon could go here -->
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="badge">Class of 2025</div>
+        <h1>THE <span>ONES</span></h1>
+        <p>Bukan sekadar teman sekelas, tapi keluarga. Solid di dalam, bersinar di luar. Selamat datang di portal resmi XII IPA 1.</p>
+        <div class="btn-group">
+            <a href="#galeri" class="btn btn-primary">
+                Lihat Galeri <i data-lucide="camera"></i>
+            </a>
+            <a href="#struktur" class="btn btn-outline">
+                Anggota Kelas <i data-lucide="users"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Tentang Kelas -->
+    <div id="about" class="container">
+        <div class="grid">
+            <div class="glass-card">
+                <i data-lucide="zap" color="#4cc9f0" size="32" style="margin-bottom: 1rem;"></i>
+                <h3>Visi Kami</h3>
+                <p style="opacity: 0.7; margin-top: 0.5rem;">Menjadi kelas yang santuy dalam pergaulan tapi serius dalam masa depan. No drama, just good vibes.</p>
+            </div>
+            <div class="glass-card">
+                <i data-lucide="heart" color="#f72585" size="32" style="margin-bottom: 1rem;"></i>
+                <h3>Motto</h3>
+                <p style="opacity: 0.7; margin-top: 0.5rem;">"Solidaritas Tanpa Batas, Tugas Tuntas, Nilai Di Atas."</p>
+            </div>
+            <div class="glass-card">
+                <i data-lucide="star" color="#ffe600" size="32" style="margin-bottom: 1rem;"></i>
+                <h3>Prestasi</h3>
+                <p style="opacity: 0.7; margin-top: 0.5rem;">Juara Kebersihan (Amin), Juara Futsal Antar Kelas, Juara Sabar Menghadapi Guru Fisika.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Struktur Kelas (Pengganti Jadwal) -->
+    <div id="struktur" class="container">
+        <div class="section-header">
+            <h2>Struktur Organisasi</h2>
+            <p>Orang-orang penting di balik layar XII.1</p>
+        </div>
+        
+        <div class="grid">
+            <!-- Wali Kelas -->
+            <div class="glass-card" style="text-align: center; border-color: #4cc9f0;">
+                <div style="width: 80px; height: 80px; background: #ddd; border-radius: 50%; margin: 0 auto 1rem; overflow: hidden;">
+                   <!-- Image Placeholder -->
+                   <img src="https://ui-avatars.com/api/?name=Wali+Kelas&background=random" alt="Wali Kelas" style="width: 100%;">
+                </div>
+                <h3>Ibu Wali, S.Pd.</h3>
+                <p style="color: #4cc9f0; font-size: 0.9rem; font-weight: 600;">WALI KELAS</p>
+            </div>
+
+            <!-- Ketua Kelas -->
+            <div class="glass-card" style="text-align: center;">
+                <div style="width: 80px; height: 80px; background: #ddd; border-radius: 50%; margin: 0 auto 1rem; overflow: hidden;">
+                    <img src="https://ui-avatars.com/api/?name=Ketua+Kelas&background=random" alt="KM" style="width: 100%;">
+                </div>
+                <h3>Sang Ketua</h3>
+                <p style="color: #4cc9f0; font-size: 0.9rem; font-weight: 600;">KETUA MURID</p>
+            </div>
+
+            <!-- Sekretaris -->
+            <div class="glass-card" style="text-align: center;">
+                <div style="width: 80px; height: 80px; background: #ddd; border-radius: 50%; margin: 0 auto 1rem; overflow: hidden;">
+                    <img src="https://ui-avatars.com/api/?name=Sekretaris&background=random" alt="Sekretaris" style="width: 100%;">
+                </div>
+                <h3>Si Pencatat</h3>
+                <p style="color: #4cc9f0; font-size: 0.9rem; font-weight: 600;">SEKRETARIS</p>
+            </div>
+
+            <!-- Bendahara -->
+            <div class="glass-card" style="text-align: center;">
+                <div style="width: 80px; height: 80px; background: #ddd; border-radius: 50%; margin: 0 auto 1rem; overflow: hidden;">
+                    <img src="https://ui-avatars.com/api/?name=Bendahara&background=random" alt="Bendahara" style="width: 100%;">
+                </div>
+                <h3>Si Penagih</h3>
+                <p style="color: #4cc9f0; font-size: 0.9rem; font-weight: 600;">BENDAHARA</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div id="galeri" class="container">
+        <div class="section-header">
+            <h2>Memories Dump</h2>
+            <p>Kenangan yang nggak akan terulang lagi.</p>
+        </div>
+
+        <div class="gallery-grid">
+            <!-- Item 1 -->
+            <div class="gallery-item glass-card" style="padding: 0;">
+                <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Classroom">
+                <div class="gallery-overlay">
+                    <h4>Suasana Kelas</h4>
+                    <p style="font-size: 0.8rem;">Saat jam kosong menyerang</p>
+                </div>
+            </div>
+            
+            <!-- Item 2 -->
+             <div class="gallery-item glass-card" style="padding: 0;">
+                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Friends">
+                <div class="gallery-overlay">
+                    <h4>Bukber 2024</h4>
+                    <p style="font-size: 0.8rem;">Full team (tumben)</p>
+                </div>
+            </div>
+
+             <!-- Item 3 -->
+             <div class="gallery-item glass-card" style="padding: 0;">
+                <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Study">
+                <div class="gallery-overlay">
+                    <h4>Kerja Kelompok</h4>
+                    <p style="font-size: 0.8rem;">90% gosip, 10% ngerjain</p>
+                </div>
+            </div>
+            
+             <!-- Item 4 -->
+             <div class="gallery-item glass-card" style="padding: 0;">
+                <img src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Field Trip">
+                <div class="gallery-overlay">
+                    <h4>Study Tour</h4>
+                    <p style="font-size: 0.8rem;">Jogja never ends</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass">
+        <div style="margin-bottom: 1rem;">
+            <h2 class="logo">XII.1</h2>
+        </div>
+        <p style="opacity: 0.6; font-size: 0.9rem;">&copy; 2026 XII IPA 1. Created with ambition and coffee.</p>
+        <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 1rem;">
+            <a href="#" style="color: white; opacity: 0.7;"><i data-lucide="instagram"></i></a>
+            <a href="#" style="color: white; opacity: 0.7;"><i data-lucide="twitter"></i></a>
+        </div>
+    </footer>
+
+    <!-- Initialize Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
+
