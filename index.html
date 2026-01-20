@@ -3,459 +3,431 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XII IPA 1 - @twelveone_story</title>
+    <title>TWELVEONESTORY</title>
     
+    <!-- Font Modern: Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* --- RESET & BASIC SETUP --- */
+        /* --- 1. RESET & CORE --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Outfit', sans-serif;
         }
 
         body {
-            /* Background Image + Dark Overlay */
-            /* Pastikan file 'background.jpg' ada di folder yang sama */
-            background: linear-gradient(rgba(15, 12, 41, 0.85), rgba(15, 12, 41, 0.7)), 
-                        url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            
-            color: white;
+            background-color: #050505;
+            color: #ffffff;
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
         }
 
-        /* --- GLASSMORPHISM UTILITY --- */
-        .glass {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        /* Background Gambar */
+        .bg-texture {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://files.catbox.moe/cha1hp.jpg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.3; 
+            z-index: -3;
+            filter: grayscale(40%) contrast(120%);
         }
 
-        /* --- PROFILE SECTION --- */
-        .profile-container {
-            padding: 4rem 2rem 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* --- 2. HEADER TEXT (NEW) --- */
+        .top-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            z-index: 100;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            /* Glass effect tipis */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            pointer-events: none; /* Supaya bisa klik elemen di bawahnya */
+        }
+
+        /* --- 3. LIQUID ANIMATION --- */
+        .liquid-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+
+        .blob-1 { width: 400px; height: 400px; background: #2b1055; top: -10%; left: -10%; }
+        .blob-2 { width: 500px; height: 500px; background: #004e92; bottom: -10%; right: -10%; animation-duration: 25s; }
+        .blob-3 { width: 300px; height: 300px; background: #753a88; top: 40%; left: 40%; animation-duration: 18s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, 50px) scale(1.1); }
+            100% { transform: translate(-20px, -30px) scale(0.9); }
+        }
+
+        /* --- 4. GLASS CARD --- */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-top: 1px solid rgba(255, 255, 255, 0.2); 
+            border-left: 1px solid rgba(255, 255, 255, 0.2); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem 2rem; /* Tambah padding atas biar ga nabrak header */
             text-align: center;
         }
 
-        .profile-pic-wrapper {
+        .profile-wrapper {
             position: relative;
+            display: inline-block;
             margin-bottom: 1.5rem;
         }
 
         .profile-pic {
-            width: 140px;
-            height: 140px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #00d2ff;
-            padding: 4px;
-            background: rgba(255,255,255,0.1);
-            transition: transform 0.3s;
+            box-shadow: 0 0 40px rgba(0, 100, 255, 0.3); 
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.5s ease;
         }
 
         .profile-pic:hover {
-            transform: scale(1.05) rotate(5deg);
+            transform: scale(1.02) rotate(2deg);
+            border-color: #00c6ff;
         }
 
         .username {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-        
-        .verified-badge {
-            color: #00d2ff;
-            font-size: 1.1rem;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 5px;
+            background: linear-gradient(to bottom, #ffffff, #aaaaaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* --- STATS JUMLAH SISWA --- */
-        .stats-box {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 1.5rem;
+        .bio {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
         }
 
-        .stat-item {
-            background: rgba(255,255,255,0.1);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: 600;
+        /* Stats Pill */
+        .stats-container {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(255,255,255,0.2);
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .stat-pill {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 25px;
+            border-radius: 50px;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ddd;
             transition: 0.3s;
         }
-
-        .stat-item:hover {
-            background: rgba(255,255,255,0.2);
+        
+        .stat-pill:hover {
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
         }
 
-        .stat-item.male i { color: #00d2ff; }   /* Warna Icon Cowo */
-        .stat-item.female i { color: #ff00cc; } /* Warna Icon Cewe */
+        .stat-pill i.male { color: #00c6ff; }
+        .stat-pill i.female { color: #ff00cc; }
 
-        .profile-bio {
-            max-width: 450px;
-            color: #e0e0e0;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        /* --- FEATURED MESSAGE --- */
-        .featured-msg {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            border-left: 4px solid #ff00cc;
-            padding: 20px 25px;
-            border-radius: 15px;
-            max-width: 500px;
-            margin-bottom: 2rem;
-            position: relative;
+        /* Quote Box - UPDATED ROUNDED */
+        .quote-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid #00c6ff;
+            padding: 25px;
+            /* UPDATE: Border radius dibuat melengkung di kiri juga */
+            border-radius: 12px 16px 16px 12px; 
             text-align: left;
+            margin-bottom: 2.5rem;
+            position: relative;
         }
-
-        .featured-msg i {
+        
+        .quote-icon {
             position: absolute;
-            top: 10px;
-            right: 15px;
+            top: 15px;
+            right: 20px;
             font-size: 1.5rem;
-            color: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.1);
         }
 
-        .msg-text {
+        .quote-text {
             font-style: italic;
+            color: #eee;
             font-size: 1rem;
-            color: #fff;
-            margin-bottom: 8px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            margin-right: 20px;
         }
-
-        .msg-sender {
+        
+        .quote-sender {
             display: block;
             text-align: right;
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.6);
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
-        /* --- SOCIAL BUTTON --- */
-        .social-btn {
+        /* Button */
+        .btn-glow {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 12px 35px;
-            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: white;
+            padding: 14px 40px;
             border-radius: 50px;
             text-decoration: none;
-            color: white;
             font-weight: 600;
             transition: 0.3s;
-            box-shadow: 0 5px 20px rgba(0, 210, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 114, 255, 0.4);
         }
 
-        .social-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.5);
-            background: white;
-            color: #00d2ff;
+        .btn-glow:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0, 114, 255, 0.7);
         }
 
-        /* --- GALLERY CAROUSEL --- */
-        #gallery {
-            padding: 2rem 0 4rem;
+        /* --- 5. GALLERY --- */
+        #gallery-section {
+            padding: 2rem 0 6rem;
             width: 100%;
-            overflow: hidden;
         }
 
-        .carousel-container {
+        .carousel-view {
             display: flex;
-            gap: 30px;
+            gap: 40px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            padding: 20px calc(50% - 140px);
-            padding-bottom: 60px;
-            -webkit-overflow-scrolling: touch;
+            padding: 50px calc(50% - 150px);
+            padding-bottom: 80px;
             scrollbar-width: none;
         }
+        .carousel-view::-webkit-scrollbar { display: none; }
 
-        .carousel-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .carousel-card {
-            flex: 0 0 280px;
-            height: 420px;
-            background: #000;
-            border-radius: 15px;
+        .card {
+            flex: 0 0 300px;
+            height: 450px;
+            border-radius: 20px;
             scroll-snap-align: center;
             position: relative;
-            transition: all 0.4s ease-out;
-            transform-origin: center center;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: #000; 
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
         }
 
-        .carousel-card img {
-            width: 100%;
-            height: 100%;
+        .card img {
+            width: 100%; height: 100%; 
             object-fit: cover;
             display: block;
             pointer-events: none;
         }
-        
-        /* Hint hover */
-        .carousel-card::after {
-            content: 'Lihat';
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.6);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: 0.3s;
-            backdrop-filter: blur(4px);
-        }
 
-        .carousel-card:hover::after {
-            opacity: 1;
-        }
-
-        /* --- LIGHTBOX --- */
+        /* --- 6. LIGHTBOX --- */
         .lightbox {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95);
-            z-index: 2000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s;
+            z-index: 3000;
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s;
+            backdrop-filter: blur(10px);
         }
         .lightbox.active { display: flex; opacity: 1; }
-        .lightbox img { max-width: 90%; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 30px rgba(0,210,255,0.2); }
-        .close-lb {
+        .lightbox img { max-width: 90%; max-height: 85vh; border-radius: 10px; box-shadow: 0 0 50px rgba(255,255,255,0.1); }
+        
+        .close-btn {
             position: absolute; top: 30px; right: 30px;
-            color: white; font-size: 2rem; cursor: pointer;
+            font-size: 2rem; color: #fff; cursor: pointer;
             width: 50px; height: 50px; text-align: center; line-height: 50px;
             background: rgba(255,255,255,0.1); border-radius: 50%;
             transition: 0.3s;
         }
-        .close-lb:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
+        .close-btn:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
 
-        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            .carousel-card { flex: 0 0 240px; height: 340px; }
-            .carousel-container { padding: 20px calc(50% - 120px); }
-            .username { font-size: 1.5rem; }
+            .blob { opacity: 0.5; }
+            .card { flex: 0 0 260px; height: 380px; }
+            .username { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- PROFILE SECTION -->
-    <section class="profile-container">
-        <div class="profile-pic-wrapper">
-            <!-- FOTO PROFIL BARU -->
-            <img src="https://files.catbox.moe/3z4uq0.jpg" alt="Profile" class="profile-pic glass">
-        </div>
+    <!-- Header Text Baru -->
+    <div class="top-header">twelveonestory</div>
+
+    <div class="bg-texture"></div>
+
+    <div class="liquid-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container">
         
-        <h1 class="username">
-            @twelveone_story 
-            <i class="fas fa-check-circle verified-badge"></i>
-        </h1>
+        <div class="glass-card" style="padding: 3rem 1.5rem; margin-bottom: 4rem;">
+            <div class="profile-wrapper">
+                <img src="https://files.catbox.moe/3z4uq0.jpg" alt="Profile" class="profile-pic">
+            </div>
 
-        <!-- JUMLAH SISWA (COWO/CEWE) -->
-        <div class="stats-box">
-            <div class="stat-item male">
-                <i class="fas fa-mars"></i> 20
+            <h1 class="username">@twelveone_story</h1>
+            <p class="bio">Batch 2026 • Solidarity Forever</p>
+
+            <div class="stats-container">
+                <div class="stat-pill">
+                    <i class="fas fa-mars male"></i> 20 Boys
+                </div>
+                <div class="stat-pill">
+                    <i class="fas fa-venus female"></i> 17 Girls
+                </div>
             </div>
-            <div class="stat-item female">
-                <i class="fas fa-venus"></i> 17
+
+            <div class="quote-box">
+                <i class="fas fa-quote-right quote-icon"></i>
+                <p class="quote-text">
+                    "Perlahan, semuanya akan berakhir, tapi setidaknya kita telah menciptakan kenangan terbaik bersama."
+                </p>
+                <span class="quote-sender">- From XII.1 Student's</span>
             </div>
+
+            <a href="https://instagram.com/twelveone_story" target="_blank" class="btn-glow">
+                <i class="fab fa-instagram"></i> Follow Instagram
+            </a>
         </div>
+
+    </div>
+
+    <section id="gallery-section">
+        <h2 style="text-align:center; margin-bottom:20px; font-weight:600; letter-spacing:2px; text-transform:uppercase; font-size: 0.9rem; opacity: 0.7;">Class Memories</h2>
         
-        <p class="profile-bio">
-            Official Account of XII IPA 1 🎓<br>
-            School Name • Batch 2026<br>
-            Solidarity above everything.
-        </p>
-
-        <!-- MOTO KELAS -->
-        <div class="featured-msg glass">
-            <i class="fas fa-quote-right"></i>
-            <p class="msg-text">
-                "Masuk bareng, lulus bareng, sukses bareng. Kalau ada masalah selesaikan di kelas, jangan di status WA."
-            </p>
-            <span class="msg-sender">- XII IPA 1</span>
-        </div>
-
-        <a href="https://instagram.com/twelveone_story" target="_blank" class="social-btn">
-            <i class="fab fa-instagram"></i> &nbsp; Follow Instagram
-        </a>
+        <div class="carousel-view" id="carousel"></div>
     </section>
 
-    <!-- GALLERY SECTION -->
-    <section id="gallery">
-        <div class="carousel-container" id="carousel"></div>
-    </section>
-
-    <!-- LIGHTBOX (POPUP FOTO) -->
     <div class="lightbox" id="lightbox">
-        <div class="close-lb" onclick="closeLightbox()">&times;</div>
+        <div class="close-btn" onclick="closeLightbox()">&times;</div>
         <img src="" alt="Full View" id="lightbox-img">
     </div>
 
     <script>
-        // ==========================================
-        // KONFIGURASI FOTO OTOMATIS
-        // ==========================================
-        
-        // 1. Berapa total foto di folder gallery?
-        const totalFoto = 17; // <--- UBAH ANGKA INI SESUAI JUMLAH FOTO ASLI KAMU
+        const totalFoto = 17;     // <-- UBAH SESUAI JUMLAH FOTO
+        const folder = "gallery/"; 
+        const useDemo = false;    // <-- UBAH KE 'false' JIKA SUDAH ADA FOTO SENDIRI
 
-        // 2. Folder tempat foto (jangan diubah)
-        const galleryFolder = "gallery/"; 
-        
-        // 3. Ubah jadi 'false' agar membaca foto lokal kamu (1.jpg, 2.jpg, dst)
-        const useDemo = false; 
-
-        // ==========================================
-        // LOGIC JAVASCRIPT
-        // ==========================================
-        
         const demoImages = [
-            "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1525921429624-479b6a26d84d?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1544963151-fb47f1f06add?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1526662092594-e98c1e356d63?q=80&w=800&auto=format&fit=crop"
+            "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=600&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=600&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?q=80&w=600&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=600&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=600&auto=format&fit=crop",
         ];
 
         const carousel = document.getElementById('carousel');
 
         function renderGallery() {
             let html = '';
-
             if (useDemo) {
-                // Pakai foto demo internet
-                demoImages.forEach((src) => {
-                    html += `<div class="carousel-card glass" onclick="openLightbox('${src}')">
-                                <img src="${src}" alt="Memory" loading="lazy">
-                             </div>`;
+                demoImages.forEach(src => {
+                    html += `<div class="card" onclick="openLightbox('${src}')"><img src="${src}" loading="lazy"></div>`;
                 });
             } else {
-                // LOGIC UNTUK GITHUB PAGES:
-                // Akan load foto 1.jpg, 2.jpg, dst sampai angka 'totalFoto'
                 for (let i = 1; i <= totalFoto; i++) {
-                    const fileName = `${i}.jpg`; 
-                    const src = galleryFolder + fileName;
-                    
-                    html += `<div class="carousel-card glass" onclick="openLightbox('${src}')">
-                                <img src="${src}" alt="Memory" loading="lazy" onerror="this.style.display='none'">
-                             </div>`;
+                    const src = `${folder}${i}.jpg`;
+                    html += `<div class="card" onclick="openLightbox('${src}')"><img src="${src}" loading="lazy" onerror="this.style.display='none'"></div>`;
                 }
             }
-
             carousel.innerHTML = html;
         }
-
         renderGallery();
 
-        // ANIMASI COVERFLOW & SCROLL
-        const cards = document.querySelectorAll('.carousel-card');
-        function updateCoverflow() {
-            if(cards.length === 0) return;
+        const cards = document.querySelectorAll('.card');
+        function animate() {
+            if(!cards.length) return;
             const center = carousel.scrollLeft + (carousel.offsetWidth / 2);
+            
             cards.forEach(card => {
                 const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
                 const dist = Math.abs(center - cardCenter);
                 const maxDist = card.offsetWidth * 1.5;
-                if (dist < maxDist) {
+                
+                if(dist < maxDist) {
                     const scale = 1 - (0.15 * (dist / maxDist));
                     card.style.transform = `scale(${scale})`;
                     card.style.opacity = 1 - (0.5 * (dist / maxDist));
                     card.style.zIndex = Math.round(100 - dist);
                     card.style.filter = `brightness(${scale})`;
                 } else {
-                    card.style.transform = 'scale(0.85)';
-                    card.style.opacity = '0.5';
-                    card.style.zIndex = '1';
-                    card.style.filter = 'brightness(0.5)';
+                    card.style.transform = `scale(0.85)`;
+                    card.style.opacity = 0.4;
+                    card.style.zIndex = 0;
+                    card.style.filter = `brightness(0.4)`;
                 }
             });
+            requestAnimationFrame(animate);
         }
-        carousel.addEventListener('scroll', updateCoverflow);
-        setTimeout(updateCoverflow, 100);
+        animate(); 
 
-        // Auto Scroll
         let isPaused = false;
         setInterval(() => {
-            if (!isPaused && cards.length > 0) {
-                const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-                if (carousel.scrollLeft >= maxScroll - 10) {
-                    carousel.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    carousel.scrollBy({ left: 310, behavior: 'smooth' });
-                }
+            if(!isPaused && cards.length > 0) {
+                const max = carousel.scrollWidth - carousel.clientWidth;
+                if(carousel.scrollLeft >= max - 10) carousel.scrollTo({left:0, behavior:'smooth'});
+                else carousel.scrollBy({left: 300, behavior:'smooth'});
             }
         }, 2500);
 
-        // Interaction Handling
-        carousel.addEventListener('touchstart', () => isPaused = true);
-        carousel.addEventListener('touchend', () => isPaused = false);
-        carousel.addEventListener('mouseenter', () => isPaused = true);
-        carousel.addEventListener('mouseleave', () => isPaused = false);
+        carousel.addEventListener('touchstart', ()=> isPaused=true);
+        carousel.addEventListener('touchend', ()=> isPaused=false);
+        carousel.addEventListener('mouseenter', ()=> isPaused=true);
+        carousel.addEventListener('mouseleave', ()=> isPaused=false);
 
-        // Lightbox
-        const lightbox = document.getElementById('lightbox');
-        const img = document.getElementById('lightbox-img');
-        
-        window.openLightbox = (src) => { 
-            img.src = src; 
-            lightbox.classList.add('active'); 
-            isPaused = true; 
-        }
-        
-        window.closeLightbox = () => { 
-            lightbox.classList.remove('active'); 
-            setTimeout(() => img.src="",300); 
-            isPaused = false; 
-        }
-        
-        lightbox.addEventListener('click', (e) => { 
-            if(e.target === lightbox) closeLightbox(); 
-        });
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+        window.openLightbox = (src) => { lbImg.src=src; lb.classList.add('active'); isPaused=true; }
+        window.closeLightbox = () => { lb.classList.remove('active'); isPaused=false; }
+        lb.addEventListener('click', (e) => { if(e.target === lb) closeLightbox(); });
 
     </script>
 </body>
