@@ -37,18 +37,14 @@
             position: relative;
             
             /* --- RAHASIA ZOOM 80% --- */
-            /* Ini bikin tampilan jadi lebih 'padat' & luas kayak di-zoom out */
             zoom: 0.8; 
-            
-            /* Fallback untuk Firefox (karena Firefox tidak dukung 'zoom') */
             -moz-transform: scale(0.8);
             -moz-transform-origin: top center;
             width: 100%;
         }
 
-        /* Fix untuk Firefox agar lebar tidak bolong saat di-scale */
         @supports (-moz-appearance:none) {
-            body { width: 125%; } /* 100 / 0.8 = 125% */
+            body { width: 125%; }
         }
 
         /* --- 2. DYNAMIC LIQUID BACKGROUND --- */
@@ -69,7 +65,7 @@
         .orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px); /* Blur lebih lembut untuk zoom out */
+            filter: blur(80px);
             opacity: 0.6;
             animation: floatOrb 15s infinite ease-in-out alternate;
             mix-blend-mode: screen;
@@ -100,7 +96,7 @@
         /* --- 4. HEADER --- */
         .dynamic-island-header {
             position: fixed;
-            top: 30px; /* Jarak lebih jauh dari atas karena zoom */
+            top: 30px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 100;
@@ -116,12 +112,12 @@
             font-size: 1.1rem;
             letter-spacing: 1px;
             color: rgba(255, 255, 255, 0.9);
-            text-transform: lowercase; /* twelveonestory */
+            text-transform: lowercase;
         }
 
         /* --- 5. MAIN CONTAINER --- */
         .container {
-            max-width: 650px; /* Sedikit diperlebar kompensasi zoom */
+            max-width: 650px;
             margin: 0 auto;
             padding: 9rem 1.5rem 2rem;
             text-align: center;
@@ -133,7 +129,6 @@
             overflow: hidden;
         }
         
-        /* Light Shimmer */
         .profile-section::before {
             content: '';
             position: absolute;
@@ -146,7 +141,7 @@
 
         .profile-img-box {
             position: relative;
-            width: 160px; /* Ukuran diperbesar sedikit */
+            width: 160px;
             height: 160px;
             margin: 0 auto 1.5rem;
         }
@@ -166,7 +161,7 @@
         }
 
         .username {
-            font-size: 2.8rem; /* Font lebih besar */
+            font-size: 2.8rem;
             font-weight: 800;
             margin-bottom: 5px;
             background: linear-gradient(135deg, #fff 30%, #a5b4fc 100%);
@@ -221,7 +216,6 @@
         .quote-glass {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255,255,255,0.1);
-            /* Rounder Corner Adjustment */
             border-radius: 30px; 
             padding: 30px;
             text-align: left;
@@ -315,7 +309,7 @@
         .carousel::-webkit-scrollbar { display: none; }
 
         .gallery-card {
-            flex: 0 0 320px; /* Card lebih besar karena zoom out */
+            flex: 0 0 320px;
             height: 480px;
             border-radius: 32px;
             scroll-snap-align: center;
@@ -448,9 +442,9 @@
 
     <script>
         // CONFIG
-        const totalFoto = 10;
-        const folder = "gallery/";
-        const useDemo = true; 
+        const totalFoto = 17;     // <-- UBAH SESUAI JUMLAH FOTO
+        const folder = "gallery/"; 
+        const useDemo = false;    // <-- UBAH KE 'false' JIKA SUDAH ADA FOTO SENDIRI
 
         const demoImages = [
             "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=600&auto=format&fit=crop",
@@ -464,6 +458,7 @@
 
         function renderGallery() {
             let html = '';
+            // Logic GitHub Pages (1.jpg, 2.jpg... 17.jpg)
             const images = useDemo ? demoImages : Array.from({length: totalFoto}, (_, i) => `${folder}${i+1}.jpg`);
             
             images.forEach(src => {
